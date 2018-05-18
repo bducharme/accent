@@ -240,4 +240,30 @@ defmodule LangueTest.Formatter.Json.Expectation do
       ]
     end
   end
+
+  defmodule InterpolationValues do
+    use Langue.Expectation.Case
+
+    def render do
+      """
+      {
+        "interpolations": {
+          "single": "Hello, {{username}}.",
+          "multiple": "Hello, {{firstname}} {{lastname}}.",
+          "duplicate": "Hello, {{username}}. Welcome back {{username}}.",
+          "empty": "Hello, {{}}."
+        }
+      }
+      """
+    end
+
+    def entries do
+      [
+        %Entry{comment: "", index: 1, key: "interpolations.single", value: "Hello, {{username}}.", interpolations: ~w({{username}})},
+        %Entry{comment: "", index: 2, key: "interpolations.multiple", value: "Hello, {{firstname}} {{lastname}}.", interpolations: ~w({{firstname}} {{lastname}})},
+        %Entry{comment: "", index: 3, key: "interpolations.duplicate", value: "Hello, {{username}}. Welcome back {{username}}.", interpolations: ~w({{username}} {{username}})},
+        %Entry{comment: "", index: 4, key: "interpolations.empty", value: "Hello, {{}}.", interpolations: ~w({{}})}
+      ]
+    end
+  end
 end

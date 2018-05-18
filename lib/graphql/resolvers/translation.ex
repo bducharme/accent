@@ -67,6 +67,8 @@ defmodule Accent.GraphQL.Resolvers.Translation do
 
   @spec update(Translation.t(), %{text: String.t()}, GraphQLContext.t()) :: translation_operation
   def update(translation, %{text: text}, info) do
+    IO.inspect(translation)
+
     %Context{}
     |> Context.assign(:translation, translation)
     |> Context.assign(:text, text)

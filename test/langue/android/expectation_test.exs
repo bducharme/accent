@@ -133,8 +133,8 @@ defmodule LangueTest.Formatter.Android.Expectation do
 
     def entries do
       [
-        %Entry{index: 1, key: "height", value: "Height (%@)", comment: ""},
-        %Entry{index: 2, key: "agree_terms_policy", value: "By using this application, you agree to the %1$@ and %2$@.", comment: ""}
+        %Entry{index: 1, key: "height", value: "Height (%@)", comment: "", interpolations: ~w(%@)},
+        %Entry{index: 2, key: "agree_terms_policy", value: "By using this application, you agree to the %1$@ and %2$@.", comment: "", interpolations: ~w(%1$@ %2$@)}
       ]
     end
   end
@@ -154,6 +154,29 @@ defmodule LangueTest.Formatter.Android.Expectation do
     def entries do
       [
         %Entry{index: 1, key: "a", value: "Test & 1,2,4 < > j'appelle", comment: ""}
+      ]
+    end
+  end
+
+  defmodule InterpolationValues do
+    use Langue.Expectation.Case
+
+    def render do
+      """
+      <?xml version="1.0" encoding="utf-8"?>
+      <resources>
+        <string name="single">Hello, %s.</string>
+        <string name="multiple">Hello, %1$s %2$s.</string>
+        <string name="duplicate">Hello, %1$s %2$s. Welcome back %1$s %2$s.</string>
+      </resources>
+      """
+    end
+
+    def entries do
+      [
+        %Entry{comment: "", index: 1, key: "single", value: "Hello, %@.", interpolations: ~w(%@)},
+        %Entry{comment: "", index: 2, key: "multiple", value: "Hello, %1$@ %2$@.", interpolations: ~w(%1$@ %2$@)},
+        %Entry{comment: "", index: 3, key: "duplicate", value: "Hello, %1$@ %2$@. Welcome back %1$@ %2$@.", interpolations: ~w(%1$@ %2$@ %1$@ %2$@)},
       ]
     end
   end

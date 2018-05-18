@@ -2,6 +2,7 @@ defmodule Langue.Formatter.Es6Module.Parser do
   @behaviour Langue.Formatter.Parser
 
   alias Langue.Formatter.Json.Parser, as: JsonParser
+  alias Langue.Utils.InterpolationsParserHelper
 
   def parse(%{render: render}) do
     # Remove the first "export default" line
@@ -22,6 +23,7 @@ defmodule Langue.Formatter.Es6Module.Parser do
       |> Kernel.++(["}"])
       |> Enum.join("\n")
       |> JsonParser.parse_json()
+      |> Enum.map(&InterpolationsParserHelper.parse(&1, :es6_module))
 
     %Langue.Formatter.ParserResult{entries: entries}
   end

@@ -85,7 +85,7 @@ defmodule Accent.GraphQL.Helpers.Authorization do
         translation =
           Translation
           |> Repo.get(id)
-          |> Repo.preload(revision: [:project])
+          |> Repo.preload([:document, revision: [:project]])
 
         authorize(action, translation.revision.project_id, info, do: func.(translation, args, info))
     end

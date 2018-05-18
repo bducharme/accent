@@ -2,6 +2,7 @@ defmodule Langue.Formatter.Android.Parser do
   @behaviour Langue.Formatter.Parser
 
   alias Langue.Entry
+  alias Langue.Utils.InterpolationsParserHelper
 
   def parse(%{render: render}) do
     case :mochiweb_html.parse(render) do
@@ -10,6 +11,7 @@ defmodule Langue.Formatter.Android.Parser do
           strings
           |> Enum.reduce(%{comment: [], entries: [], index: 1}, &parse_line(&1, &2))
           |> Map.get(:entries)
+          |> Enum.map(&InterpolationsParserHelper.parse(&1, :android))
 
         %Langue.Formatter.ParserResult{entries: entries}
 

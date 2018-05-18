@@ -89,4 +89,24 @@ defmodule LangueTest.Formatter.Strings.Expectation do
       ]
     end
   end
+
+  defmodule InterpolationValues do
+    use Langue.Expectation.Case
+
+    def render do
+      """
+      "single" = "Hello, %s.";
+      "multiple" = "Hello, %1$s %2$s.";
+      "duplicate" = "Hello, %1$s %2$s. Welcome back %1$s %2$s.";
+      """
+    end
+
+    def entries do
+      [
+        %Entry{comment: "", index: 1, key: "single", value: "Hello, %s.", interpolations: ~w(%s)},
+        %Entry{comment: "", index: 2, key: "multiple", value: "Hello, %1$s %2$s.", interpolations: ~w(%1$s %2$s)},
+        %Entry{comment: "", index: 3, key: "duplicate", value: "Hello, %1$s %2$s. Welcome back %1$s %2$s.", interpolations: ~w(%1$s %2$s %1$s %2$s)},
+      ]
+    end
+  end
 end

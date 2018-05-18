@@ -2,6 +2,7 @@ defmodule Movement.Builders.TranslationUpdate do
   @behaviour Movement.Builder
 
   alias Movement.Mappers.Operation, as: OperationMapper
+  alias Langue.Utils.InterpolationsParserHelper
 
   @action "update"
 
@@ -9,7 +10,8 @@ defmodule Movement.Builders.TranslationUpdate do
 
   def build(context = %Movement.Context{assigns: %{translation: translation, text: text}, operations: operations}) do
     value_type = parse_value_type(translation, text)
-    operation = OperationMapper.map(@action, translation, %{text: text, value_type: value_type})
+    interpolations = InterpolationsParserHelper.parse(%{value: text}, String.to_atom(translation.document.format))
+    operation = OperationMapper.map(@action, translation, %{text: text, value_type: value_type, interpolations: interpolations})
 
     %{context | operations: Enum.concat(operations, [operation])}
   end
