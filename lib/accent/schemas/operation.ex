@@ -33,6 +33,7 @@ defmodule Accent.Operation do
     field(:value_type, :string)
     field(:plural, :boolean, default: false)
     field(:locked, :boolean, default: false)
+    field(:interpolations, {:array, :string}, default: [])
 
     field(:rollbacked, :boolean, default: false)
     field(:stats, {:array, :map}, default: [])

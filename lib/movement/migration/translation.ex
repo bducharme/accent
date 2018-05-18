@@ -56,7 +56,8 @@ defmodule Movement.Migration.Translation do
       removed: operation.previous_translation && operation.previous_translation.removed,
       revision_id: operation.revision_id,
       document_id: operation.document_id,
-      version_id: operation.version_id
+      version_id: operation.version_id,
+      interpolations: operation.interpolations
     }
 
     insert(translation)
@@ -79,7 +80,8 @@ defmodule Movement.Migration.Translation do
       revision_id: operation.revision_id,
       document_id: operation.document_id,
       version_id: operation.version_id,
-      source_translation_id: operation.translation_id
+      source_translation_id: operation.translation_id,
+      interpolations: operation.interpolations
     }
 
     version_operation = Operation.copy(operation, %{action: "add_to_version", translation_id: id})

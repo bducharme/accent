@@ -8,7 +8,8 @@ defmodule LangueTest.Formatter.SimpleJson do
   alias Accent.FormatterTestHelper
 
   @tests [
-    Empty
+    Empty,
+    InterpolationValues
   ]
 
   test "simple json parse" do
